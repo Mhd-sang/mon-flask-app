@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    restart: always
+    volumes:
+      - ./volumes/mongodb:/data/db
+
+  pritunl:
+    image: goofball222/pritunl
+    container_name: pritunl
+    restart: always
+    privileged: true
+    network_mode: host
+    environment:
+      - MONGODB_URI=mongodb://localhost/pritunl
+    volumes:
+      - ./volumes/pritunl:/var/lib/pritunl
+    depends_on:
+      - mongo
